@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bus Mall</title>
+    <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -12,8 +13,9 @@
         <h1>Welcome to Bus Mall!</h1>
         <nav></nav>
     </header>
-    <aside id = "itemClicks">
-    <ul>
+    <p>Results</p>
+    <aside>
+    <ul id = "itemClicks">
         <li>bag: 0</li>
         <li>banana: 0</li>
         <li>bathroom: 0</li>
@@ -33,6 +35,7 @@
         <li>wine-glass: 0</li>
     </ul>
     </aside>
+    <button id = "button" onclick = "renderLikesAndShown()" >View Results!</button>
     <section id = "allItems">
     <h2>Please click on the item that you would most likely buy</h2>
 
@@ -51,6 +54,6 @@
         </figure>
     </div>
     </section>
-    <script src="app.js"></script>
+    <script src="app.js"></script> 
 </body>
 </html>

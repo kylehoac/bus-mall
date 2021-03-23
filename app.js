@@ -35,7 +35,7 @@ function shuffle(array) {
         const temp = array[i];
         array[i] = array[j];
         array[j] = temp;
-        console.log(array.length);
+        // console.log(array.length);
     }
 }
 
@@ -85,11 +85,22 @@ const handleClickOnItem = function (event) {
     totalClicks += 1;
     if (totalClicks === maxClicks) {
         itemImageElem.removeEventListener('click', handleClickOnItem);
-        alert ('Thanks for all of clicks');
+        alert('Thanks for the input');
+        renderLikesAndShown();
     }
 };
 itemImageElem.addEventListener('click', handleClickOnItem);
 
+function renderLikesAndShown() {
+    const itemsClickedElem = document.getElementById('itemClicks');
+    itemsClickedElem.innerHTML = '';
+    for (let i = 0; i < Item.all.length; i++) {
+        const itemImages = Item.all[i];
+        const itemResults = document.createElement('li');
+        itemsClickedElem.appendChild(itemResults);
+        itemResults.textContent = itemImages.name + ' : ' + itemImages.clicks + ' and ' + itemImages.timesShown;
+    }
+}
 
 
 // constructor function instances
@@ -115,3 +126,4 @@ new Item('Water Can', 'img/water-can.jpg');
 new Item('Wine Glass', 'img/wine-glass.jpg');
 
 pickNewItem();
+
