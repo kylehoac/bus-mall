@@ -1,13 +1,14 @@
 h1 {
     font-size: 45px;
     text-align: center;
-    background-color: #0E79B2;
+    background-color: #b2190e;
     border:solid #191923 3px;
-    color: #BF1363;
+    color: #feeaf3;
 }
 h2 {
     font-size: 30px;
     text-align:center;
+    text-decoration: underline;
 }
 body {
     background-color: #FBFEF9;
@@ -22,10 +23,12 @@ ul {
     text-align:center;
 }
 button {
-    margin-left: 910px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 849px;
 }
 #itemPics {
-    position:flex;
+    display: flex;
     justify-content: center;
 }
 img {

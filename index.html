@@ -7,6 +7,7 @@
     <title>Bus Mall</title>
     <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 </head>
 <body>
     <header>
@@ -36,8 +37,8 @@
     </ul>
     </aside>
     <button id = "button" onclick = "renderLikesAndShown()" >View Results!</button>
-    <section id = "allItems">
     <h2>Please click on the item that you would most likely buy</h2>
+    <section id = "allItems">
 
     <div id="itemPics">
         <figure id = "leftItem">
@@ -54,6 +55,7 @@
         </figure>
     </div>
     </section>
+    <canvas id="itemChart" width="500" height="500"></canvas>
     <script src="app.js"></script> 
 </body>
 </html>
