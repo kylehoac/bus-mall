@@ -12,12 +12,10 @@ const rightItemDescElem = document.getElementById('rightItemDesc');
 const maxClicks = 25;
 let totalClicks = 0;
 
-// variable storing items currently on page
 let leftItemOnPage = null;
 let midItemOnPage = null;
 let rightItemOnPage = null;
 
-// constructor function
 const Item = function (name, imgURL) {
     this.name = name;
     this.url = imgURL;
@@ -35,11 +33,9 @@ function shuffle(array) {
         const temp = array[i];
         array[i] = array[j];
         array[j] = temp;
-        // console.log(array.length);
     }
 }
 
-// render function
 const renderNewItems = function () {
     leftItemImgElem.src = leftItemOnPage.url;
     leftItemImgElem.alt = leftItemOnPage.name;
@@ -53,10 +49,43 @@ const renderNewItems = function () {
     rightItemImgElem.alt = rightItemOnPage.name;
     rightItemDescElem.textContent = rightItemOnPage.name;
 };
+function setClicks() {
+    let stringifiedClicks = JSON.stringify(Item.all);
+    localStorage.setItem('items', stringifiedClicks);
+}
+function getItems() {
+    let items = localStorage.getItem('items');
+    if (items !== null) {
+        let parsedItems = JSON.parse(items);
+        for (let item of parsedItems) {
+            let newItem = new Item(item.name, item.url);
+            newItem.clicks = item.clicks;
+            newItem.timesShown = item.timesShown;
+        }
+    } else if (items === null) {
+        new Item('Bag', 'img/bag.jpg');
+        new Item('Banana', 'img/banana.jpg');
+        new Item('Bathroom', 'img/bathroom.jpg');
+        new Item('Boots', 'img/boots.jpg');
+        new Item('Breakfast', 'img/breakfast.jpg');
+        new Item('Bubblegum', 'img/bubblegum.jpg');
+        new Item('Chair', 'img/chair.jpg');
+        new Item('Cthulhu', 'img/cthulhu.jpg');
+        new Item('Dog Duck', 'img/dog-duck.jpg');
+        new Item('Dragon', 'img/dragon.jpg');
+        new Item('Pen', 'img/pen.jpg');
+        new Item('Pet Sweep', 'img/pet-sweep.jpg');
+        new Item('Scissors', 'img/scissors.jpg');
+        new Item('Shark', 'img/shark.jpg');
+        new Item('Sweep', 'img/sweep.png');
+        new Item('Tauntaun', 'img/tauntaun.jpg');
+        new Item('Unicorn', 'img/unicorn.jpg');
+        new Item('Usb', 'img/usb.gif');
+        new Item('Water Can', 'img/water-can.jpg');
+        new Item('Wine Glass', 'img/wine-glass.jpg');
+    }
+}
 function pickNewItem() {
-
-    // rule: next item cannot have been any of the previous items
-    // and not break the unique rule
 
     const previousLeft = leftItemOnPage;
     const previousMid = midItemOnPage;
@@ -84,10 +113,6 @@ function pickNewItem() {
             break;
         }
     }
-    // leftItemOnPage = Item.all[0];
-    // midItemOnPage = Item.all[1];
-    // rightItemOnPage = Item.all[2];
-
     renderNewItems();
 }
 
@@ -114,13 +139,14 @@ const handleClickOnItem = function (event) {
         }
     }
     if (totalClicks === maxClicks) {
+        setClicks();
         itemImageElem.removeEventListener('click', handleClickOnItem);
         alert('Thanks for the input');
         renderLikesAndShown();
         makeAItemChart();
-        // makeAVoteChart();
     }
 };
+getItems();
 itemImageElem.addEventListener('click', handleClickOnItem);
 
 function renderLikesAndShown() {
@@ -134,28 +160,26 @@ function renderLikesAndShown() {
     }
 }
 
-
-// constructor function instances
-new Item('Bag', 'img/bag.jpg');
-new Item('Banana', 'img/banana.jpg');
-new Item('Bathroom', 'img/bathroom.jpg');
-new Item('Boots', 'img/boots.jpg');
-new Item('Breakfast', 'img/breakfast.jpg');
-new Item('Bubblegum', 'img/bubblegum.jpg');
-new Item('Chair', 'img/chair.jpg');
-new Item('Cthulhu', 'img/cthulhu.jpg');
-new Item('Dog Duck', 'img/dog-duck.jpg');
-new Item('Dragon', 'img/dragon.jpg');
-new Item('Pen', 'img/pen.jpg');
-new Item('Pet Sweep', 'img/pet-sweep.jpg');
-new Item('Scissors', 'img/scissors.jpg');
-new Item('Shark', 'img/shark.jpg');
-new Item('Sweep', 'img/sweep.png');
-new Item('Tauntaun', 'img/tauntaun.jpg');
-new Item('Unicorn', 'img/unicorn.jpg');
-new Item('Usb', 'img/usb.gif');
-new Item('Water Can', 'img/water-can.jpg');
-new Item('Wine Glass', 'img/wine-glass.jpg');
+// new Item('Bag', 'img/bag.jpg');
+// new Item('Banana', 'img/banana.jpg');
+// new Item('Bathroom', 'img/bathroom.jpg');
+// new Item('Boots', 'img/boots.jpg');
+// new Item('Breakfast', 'img/breakfast.jpg');
+// new Item('Bubblegum', 'img/bubblegum.jpg');
+// new Item('Chair', 'img/chair.jpg');
+// new Item('Cthulhu', 'img/cthulhu.jpg');
+// new Item('Dog Duck', 'img/dog-duck.jpg');
+// new Item('Dragon', 'img/dragon.jpg');
+// new Item('Pen', 'img/pen.jpg');
+// new Item('Pet Sweep', 'img/pet-sweep.jpg');
+// new Item('Scissors', 'img/scissors.jpg');
+// new Item('Shark', 'img/shark.jpg');
+// new Item('Sweep', 'img/sweep.png');
+// new Item('Tauntaun', 'img/tauntaun.jpg');
+// new Item('Unicorn', 'img/unicorn.jpg');
+// new Item('Usb', 'img/usb.gif');
+// new Item('Water Can', 'img/water-can.jpg');
+// new Item('Wine Glass', 'img/wine-glass.jpg');
 
 pickNewItem();
 
