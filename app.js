@@ -54,10 +54,40 @@ const renderNewItems = function () {
     rightItemDescElem.textContent = rightItemOnPage.name;
 };
 function pickNewItem() {
+
+    // rule: next item cannot have been any of the previous items
+    // and not break the unique rule
+
+    const previousLeft = leftItemOnPage;
+    const previousMid = midItemOnPage;
+    const previousRight = rightItemOnPage;
+
     shuffle(Item.all);
-    leftItemOnPage = Item.all[0];
-    midItemOnPage = Item.all[1];
-    rightItemOnPage = Item.all[2];
+
+    for (let item of Item.all) {
+        if (item !== previousLeft && item !== previousMid && item !== previousRight) {
+            leftItemOnPage = item;
+            break;
+        }
+    }
+
+    for (let item of Item.all) {
+        if (item !== previousLeft && item !== previousMid && item !== previousRight && item !== leftItemOnPage) {
+            midItemOnPage = item;
+            break;
+        }
+    }
+
+    for (let item of Item.all) {
+        if (item !== previousLeft && item !== previousMid && item !== previousRight && item !== leftItemOnPage && item !== midItemOnPage) {
+            rightItemOnPage = item;
+            break;
+        }
+    }
+    // leftItemOnPage = Item.all[0];
+    // midItemOnPage = Item.all[1];
+    // rightItemOnPage = Item.all[2];
+
     renderNewItems();
 }
 
@@ -65,7 +95,7 @@ const handleClickOnItem = function (event) {
     if (totalClicks < maxClicks) {
         const clickedItem = event.target;
         const id = clickedItem.id;
-        // redundant code V
+
         if (id === 'leftItemImg' || id === 'midItemImg' || id === 'rightItemImg') {
 
             if (id === 'leftItemImg') {
@@ -78,15 +108,17 @@ const handleClickOnItem = function (event) {
             leftItemOnPage.timesShown += 1;
             midItemOnPage.timesShown += 1;
             rightItemOnPage.timesShown += 1;
+            totalClicks += 1;
 
             pickNewItem();
         }
     }
-    totalClicks += 1;
     if (totalClicks === maxClicks) {
         itemImageElem.removeEventListener('click', handleClickOnItem);
         alert('Thanks for the input');
         renderLikesAndShown();
+        makeAItemChart();
+        // makeAVoteChart();
     }
 };
 itemImageElem.addEventListener('click', handleClickOnItem);
@@ -127,3 +159,37 @@ new Item('Wine Glass', 'img/wine-glass.jpg');
 
 pickNewItem();
 
+function makeAItemChart() {
+
+    const itemNamesArray = [];
+    const itemClicksArray = [];
+
+    for (let item of Item.all) {
+        itemNamesArray.push(item.name);
+        itemClicksArray.push(item.clicks);
+    }
+
+    const ctx = document.getElementById('itemChart').getContext('2d');
+    const itemChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: itemNamesArray,
+            datasets: [{
+                label: 'Number of Votes Per Item',
+                data: itemClicksArray,
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+}
