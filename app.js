@@ -156,7 +156,7 @@ function renderLikesAndShown() {
         const itemImages = Item.all[i];
         const itemResults = document.createElement('li');
         itemsClickedElem.appendChild(itemResults);
-        itemResults.textContent = itemImages.name + ' : ' + itemImages.clicks + ' and ' + itemImages.timesShown;
+        itemResults.textContent = itemImages.name + ' : ' + itemImages.clicks + ' votes and ' + itemImages.timesShown + ' times shown ';
     }
 }
 
