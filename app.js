@@ -9,13 +9,16 @@ const leftItemDescElem = document.getElementById('leftItemDesc');
 const midItemDescElem = document.getElementById('midItemDesc');
 const rightItemDescElem = document.getElementById('rightItemDesc');
 
+// variables holding values for the total times an image was clicked and the max times theyre allowed to be clicked
 const maxClicks = 25;
 let totalClicks = 0;
 
+// declares variables for the pictures with no values
 let leftItemOnPage = null;
 let midItemOnPage = null;
 let rightItemOnPage = null;
 
+// constructor function for item instances
 const Item = function (name, imgURL) {
     this.name = name;
     this.url = imgURL;
@@ -24,9 +27,9 @@ const Item = function (name, imgURL) {
 
     Item.all.push(this);
 };
-
+// empty array for list of items
 Item.all = [];
-
+// shuffles the list of items
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * i);
@@ -35,7 +38,7 @@ function shuffle(array) {
         array[j] = temp;
     }
 }
-
+// fuction for rendering items onto a page
 const renderNewItems = function () {
     leftItemImgElem.src = leftItemOnPage.url;
     leftItemImgElem.alt = leftItemOnPage.name;
@@ -49,10 +52,12 @@ const renderNewItems = function () {
     rightItemImgElem.alt = rightItemOnPage.name;
     rightItemDescElem.textContent = rightItemOnPage.name;
 };
+// stringifies items and stores them in local storage with the key of "items"
 function setClicks() {
     let stringifiedClicks = JSON.stringify(Item.all);
     localStorage.setItem('items', stringifiedClicks);
 }
+// gets items from local storage and parses them, then creates new objects using local storage data
 function getItems() {
     let items = localStorage.getItem('items');
     if (items !== null) {
@@ -85,6 +90,7 @@ function getItems() {
         new Item('Wine Glass', 'img/wine-glass.jpg');
     }
 }
+// function that picks a new item after a previous item was clicked on, and makes sure it wasnt the same as the last
 function pickNewItem() {
 
     const previousLeft = leftItemOnPage;
@@ -115,7 +121,7 @@ function pickNewItem() {
     }
     renderNewItems();
 }
-
+// event handler for clicked images that adds 1 to the number of clicks on a certain item, 1 to the times shown on every item on the page, and renders new images
 const handleClickOnItem = function (event) {
     if (totalClicks < maxClicks) {
         const clickedItem = event.target;
@@ -148,7 +154,7 @@ const handleClickOnItem = function (event) {
 };
 getItems();
 itemImageElem.addEventListener('click', handleClickOnItem);
-
+// renders the name, clicks, and times shown to the page
 function renderLikesAndShown() {
     const itemsClickedElem = document.getElementById('itemClicks');
     itemsClickedElem.innerHTML = '';
@@ -156,7 +162,7 @@ function renderLikesAndShown() {
         const itemImages = Item.all[i];
         const itemResults = document.createElement('li');
         itemsClickedElem.appendChild(itemResults);
-        itemResults.textContent = itemImages.name + ' : ' + itemImages.clicks + ' and ' + itemImages.timesShown;
+        itemResults.textContent = itemImages.name + ' : ' + itemImages.clicks + ' votes and ' + itemImages.timesShown + ' times shown ';
     }
 }
 
@@ -182,7 +188,7 @@ function renderLikesAndShown() {
 // new Item('Wine Glass', 'img/wine-glass.jpg');
 
 pickNewItem();
-
+// makes a chart that visualizes the amount of times clicked and shown for each item
 function makeAItemChart() {
 
     const itemNamesArray = [];
